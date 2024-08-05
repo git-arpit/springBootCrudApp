@@ -66,7 +66,7 @@ Request body JSON Example
 | :-------- | :------- | :-------------------------------- |
 | `id`      | `string` | **Required** Id of employee to fetch |
 
-#### Update exsisting employee details
+#### Update existing employee details
 ```http
   PUT /home/update
 ```
