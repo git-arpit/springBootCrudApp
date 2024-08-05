@@ -8,7 +8,7 @@ This is a SpringBoot application that performs CRUD operations on employee recor
 - Java 17
 - Spring Boot 3
 
-## Author
+### Author
 
 - [@git-arpit](https://www.github.com/git-arpit)
 
@@ -19,11 +19,11 @@ This is a SpringBoot application that performs CRUD operations on employee recor
   git clone https://github.com/git-arpit/springBootCrudApp.git
 ```
 
-## Build the application
+### Build the application
 ```sh
   mvn clean install
 ```
-## Run the application
+### Run the application
 ```sh
   mvn spring-boot:run
 ```
