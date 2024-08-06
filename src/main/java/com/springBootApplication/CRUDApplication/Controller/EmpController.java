@@ -29,7 +29,7 @@ public class EmpController {
     @GetMapping("/emp/{empID}")
     public ResponseEntity<Employee> employeeById(@PathVariable("empID") String s){
         Employee result = new Employee();
-        result = empService.getEmpByID(Long.parseLong(s));
+        result = empService.getEmpByID(s);
         if (result==null){
             return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
         }
@@ -40,9 +40,10 @@ public class EmpController {
         Employee result = new Employee();
         result = empService.addEmp(emp);
         if(result!=null){
-            return  ResponseEntity.status(HttpStatus.CREATED).body("The Employee "+result.getName()+" added successfully");
+            return  ResponseEntity.status(HttpStatus.CREATED).body("The Employee "+ result.getName()+" added successfully");
         }
         return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body("Addition of employee details has been failed");
+
     }
 
     @PutMapping("/update")
@@ -54,7 +55,7 @@ public class EmpController {
     }
 
     @DeleteMapping("/del/{id}")
-    public ResponseEntity<String> removeDetails(@PathVariable("id") Long id){
+    public ResponseEntity<String> removeDetails(@PathVariable("id") String id){
         String result = empService.removeEmp(id);
         if (result.equalsIgnoreCase("failed")){
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("No such employee exist - failed to delete");
@@ -62,6 +63,16 @@ public class EmpController {
         return ResponseEntity.status(HttpStatus.OK).body("Employee (ID: "+id+") deleted successfully");
     }
 
+    @PostMapping("/search")
+    public ResponseEntity<List<Employee>> searchByKeyword(@RequestParam String keyword){
+        List<Employee> resultList = new ArrayList<>();
+        resultList = empService.searchByKeyword(keyword);
+        if(resultList.size()<=0){
+         return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+
+        }
+        return ResponseEntity.of(Optional.of(resultList));
+    }
 
     }
 

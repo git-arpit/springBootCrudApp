@@ -4,11 +4,13 @@ import java.util.List;
 
 public interface EmpService {
 
-    public List<Employee> getAllEmp();
-    public Employee getEmpByID(Long id);
-    public Employee updateEmp(Employee employee);
-    public String removeEmp(Long id);
-    public Employee addEmp(Employee employee);
+     List<Employee> getAllEmp();
+     Employee getEmpByID(String id);
+     Employee updateEmp(Employee employee);
+     String removeEmp(String id);
+     Employee addEmp(Employee employee);
+     List<Employee> searchByKeyword(String key);
+
 
 
 }

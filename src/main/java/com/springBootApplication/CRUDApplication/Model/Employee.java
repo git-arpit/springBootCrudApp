@@ -11,13 +11,18 @@ public class Employee {
     @Column(nullable = false)
     private String secondarySkill;
     @Id
-    private Long empId;
+    private String empId;
 
-    public Employee(String name, String primarySkill, String secondarySkill, Long empId) {
+    @Column(nullable = false)
+    private String comments;
+
+
+    public Employee(String name, String primarySkill, String secondarySkill, String empId, String comments) {
         this.name = name;
         this.primarySkill = primarySkill;
         this.secondarySkill = secondarySkill;
         this.empId = empId;
+        this.comments = comments;
     }
 
     public Employee() {
@@ -48,12 +53,20 @@ public class Employee {
         this.secondarySkill = secondarySkill;
     }
 
-    public Long getEmpId() {
+    public String getEmpId() {
         return empId;
     }
 
-    public void setEmpId(Long empId) {
+    public void setEmpId(String empId) {
         this.empId = empId;
+    }
+
+    public String getComments() {
+        return comments;
+    }
+
+    public void setComments(String comments) {
+        this.comments = comments;
     }
 
     @Override
@@ -63,6 +76,7 @@ public class Employee {
                 ", primarySkill='" + primarySkill + '\'' +
                 ", secondarySkill='" + secondarySkill + '\'' +
                 ", empId=" + empId +
+                ", comments='" + comments + '\'' +
                 '}';
     }
 }
