@@ -1,7 +1,9 @@
 package com.springBootApplication.CRUDApplication.Controller;
+import com.springBootApplication.CRUDApplication.Exception.ResourceNotFoundException;
 import com.springBootApplication.CRUDApplication.Model.Employee;
 import com.springBootApplication.CRUDApplication.Service.EmpService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -20,7 +22,7 @@ public class EmpController {
     public ResponseEntity<List<Employee>> allEmployees(){
         List<Employee> resultList = new ArrayList<>();
         resultList = this.empService.getAllEmp();
-        if (resultList.size()<=0){
+        if (resultList.size() == 0){
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
         return ResponseEntity.of(Optional.of(resultList));
@@ -55,10 +57,12 @@ public class EmpController {
     }
 
     @DeleteMapping("/del/{id}")
-    public ResponseEntity<String> removeDetails(@PathVariable("id") String id){
+    public ResponseEntity<Object> removeDetails(@PathVariable("id") String id){
         String result = empService.removeEmp(id);
         if (result.equalsIgnoreCase("failed")){
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("No such employee exist - failed to delete");
+           ResourceNotFoundException resourceNotFoundException = new ResourceNotFoundException("Employee","Id",id);
+            return new ResponseEntity<Object>(resourceNotFoundException.getMessage(), HttpStatus.NOT_FOUND);
+
         }
         return ResponseEntity.status(HttpStatus.OK).body("Employee (ID: "+id+") deleted successfully");
     }
@@ -67,9 +71,10 @@ public class EmpController {
     public ResponseEntity<List<Employee>> searchByKeyword(@RequestParam String keyword){
         List<Employee> resultList = new ArrayList<>();
         resultList = empService.searchByKeyword(keyword);
-        if(resultList.size()<=0){
-         return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
-
+        if(resultList.size() == 0){
+       //  return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+            ResourceNotFoundException resourceNotFoundException = new ResourceNotFoundException("Employee","keyword",keyword);
+         return ResponseEntity.badRequest().header("Error",resourceNotFoundException.getMessage()).body(resultList);
         }
         return ResponseEntity.of(Optional.of(resultList));
     }
